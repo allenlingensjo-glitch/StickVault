@@ -1,0 +1,165 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<% if (typeof heroImage !== 'undefined' && heroImage) { %>
+<img src="<%= heroImage %>" alt="Free Vault Downloads — StickVault" class="hero-img-bg">
+<% } %>
+
+<!-- Hero — above the fold, both magnets presented -->
+<section class="free-hero">
+  <div class="container">
+    <div class="free-hero-inner">
+      <div class="section-label">Free from the Vault</div>
+      <h1 class="free-hero-title">Two systems.<br><em class="hero-italic">Zero fluff.</em></h1>
+      <p class="free-hero-sub">Pick what fits your world right now. Both are free. Both are immediately useful. Neither exists to upsell you — they're here because these are the tools we actually use.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Magnet 1 — Collector -->
+<section class="free-magnet-section free-magnet-section--collector">
+  <div class="container">
+    <div class="free-magnet-grid">
+      <div class="free-magnet-meta">
+        <div class="free-magnet-number">01</div>
+        <div class="section-label">For Collectors</div>
+        <h2 class="free-magnet-title">The Grading Prep<br>Checklist</h2>
+        <p class="free-magnet-desc">Every step from raw card to submitted slab. The PSA/BGS prep workflow that serious collectors use to protect grades before the package ships.</p>
+        <div class="free-magnet-includes">
+          <div class="free-include-label">What's inside</div>
+          <ul class="free-include-list">
+            <li><span class="magnet-check">✓</span> Pre-submission cleaning workflow (what to use, what kills surface quality)</li>
+            <li><span class="magnet-check">✓</span> PSA vs BGS decision framework — when each makes financial sense</li>
+            <li><span class="magnet-check">✓</span> Packing protocol that prevents damage in transit</li>
+            <li><span class="magnet-check">✓</span> Submission tier selection logic</li>
+            <li><span class="magnet-check">✓</span> Centering check before you ship (common grade-killers)</li>
+            <li><span class="magnet-check">✓</span> Post-return sell vs hold decision matrix</li>
+          </ul>
+        </div>
+        <form class="email-form email-form--magnet email-form--free-page" data-source="free_page" data-form-id="free-collector">
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            class="email-input"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="btn btn-primary">Unlock the Checklist</button>
+        </form>
+        <div class="email-form-message magnet-form-message" id="msg-free-collector" style="display:none;"></div>
+        <p class="magnet-fine-print">Sent instantly. No spam. Unsubscribe anytime.</p>
+      </div>
+      <div class="free-magnet-visual">
+        <div class="magnet-doc magnet-doc--large">
+          <div class="magnet-doc-header">
+            <span class="magnet-doc-label">Free Checklist</span>
+            <span class="magnet-doc-title">Grading Prep<br>Checklist</span>
+          </div>
+          <ul class="magnet-doc-list">
+            <li><span class="magnet-check">✓</span> Pre-submission card cleaning workflow</li>
+            <li><span class="magnet-check">✓</span> PSA vs BGS — which grade level triggers the flip</li>
+            <li><span class="magnet-check">✓</span> Sleeve & half-holder packing protocol</li>
+            <li><span class="magnet-check">✓</span> Submission tier selection guide</li>
+            <li><span class="magnet-check">✓</span> Common centering mistakes that kill grades</li>
+            <li><span class="magnet-check">✓</span> Post-return sell-vs-hold decision matrix</li>
+          </ul>
+          <div class="magnet-doc-tag">Collectors</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Divider -->
+<div class="free-divider">
+  <div class="container">
+    <div class="free-divider-line"></div>
+    <div class="free-divider-label">Also free</div>
+    <div class="free-divider-line"></div>
+  </div>
+</div>
+
+<!-- Magnet 2 — Operator Playbook -->
+<section class="free-magnet-section free-magnet-section--operator">
+  <div class="container">
+    <div class="free-magnet-grid free-magnet-grid--flip">
+      <div class="free-magnet-visual">
+        <div class="magnet-doc magnet-doc--large magnet-doc--playbook">
+          <div class="magnet-doc-header">
+            <span class="magnet-doc-label">Daily System</span>
+            <span class="magnet-doc-title">Operator's<br>Playbook</span>
+          </div>
+          <div class="playbook-sections">
+            <div class="playbook-block">
+              <div class="playbook-block-label">Morning</div>
+              <div class="playbook-block-item">Today's one must-do</div>
+              <div class="playbook-block-item">Open loop to close</div>
+              <div class="playbook-block-item">Vault check (5 min)</div>
+            </div>
+            <div class="playbook-block">
+              <div class="playbook-block-label">Work Block</div>
+              <div class="playbook-block-item">Deep work / research</div>
+              <div class="playbook-block-item">Listings / submissions</div>
+            </div>
+            <div class="playbook-block">
+              <div class="playbook-block-label">Evening</div>
+              <div class="playbook-block-item">Weekly review trigger</div>
+              <div class="playbook-block-item">Next-day setup</div>
+            </div>
+          </div>
+          <div class="magnet-doc-tag">Routines</div>
+        </div>
+      </div>
+      <div class="free-magnet-meta">
+        <div class="free-magnet-number">02</div>
+        <div class="section-label">For Operators</div>
+        <h2 class="free-magnet-title">The Operator's<br>Daily Playbook</h2>
+        <p class="free-magnet-desc">A one-page daily system for collectors and creators running side projects. Built around the constraint that real collectors have day jobs, families, and 45 good minutes a day.</p>
+        <div class="free-magnet-includes">
+          <div class="free-include-label">What's inside</div>
+          <ul class="free-include-list">
+            <li><span class="magnet-check">✓</span> Morning anchor — the 3 questions that set your day's direction</li>
+            <li><span class="magnet-check">✓</span> Weekly vault review template (inventory, watchlist, submissions)</li>
+            <li><span class="magnet-check">✓</span> Side hustle block logic — when to ship vs when to research</li>
+            <li><span class="magnet-check">✓</span> The "45-minute operator" framework for people with limited time</li>
+          </ul>
+        </div>
+        <form class="email-form email-form--magnet email-form--free-page" data-source="free_page" data-form-id="free-operator">
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            class="email-input"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="btn btn-primary">Get the Playbook</button>
+        </form>
+        <div class="email-form-message magnet-form-message" id="msg-free-operator" style="display:none;"></div>
+        <p class="magnet-fine-print">Sent instantly. No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom CTA — explore the vault -->
+<section class="free-bottom-cta">
+  <div class="container">
+    <div class="free-cta-inner">
+      <div class="section-label">Already free</div>
+      <h2 class="free-cta-title">The vault is open.</h2>
+      <p class="free-cta-sub">Deep dives on cards, drums, routines, and side hustles — no subscription required. Just read.</p>
+      <div class="free-cta-actions">
+        <a href="/blog" class="btn btn-primary">Enter the Vault</a>
+        <a href="/shop" class="btn btn-ghost">Browse the Shop</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+<%- analyticsSnippet %>
+<script src="/js/main.js"></script>
+</body>
+</html>

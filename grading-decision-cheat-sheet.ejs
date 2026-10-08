@@ -1,0 +1,162 @@
+<%- include('../partials/head') %>
+<%- include('../partials/nav') %>
+
+<article class="post-article cheat-sheet">
+  <!-- Post header — Pinterest-optimized tall header area -->
+  <header class="post-header">
+    <div class="container">
+      <div class="post-header-inner">
+        <span class="post-cat post-cat--collecting">Printable Cheat Sheet</span>
+        <h1 class="post-title"><%= post.title %></h1>
+        <p class="post-excerpt"><%= post.excerpt %></p>
+        <div class="post-meta">
+          <span class="post-read-time"><%= post.read_time_minutes %> min read</span>
+          <span class="post-date"><%= new Date(post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post body -->
+  <div class="post-body">
+    <div class="container">
+      <%- include('../partials/ftc-disclosure') %>
+
+      <% var heroImg = heroPinUrl || post.pin_image || post.cover_image; %>
+      <% if (heroImg) { %>
+      <div class="post-hero-img-wrap">
+        <img
+          src="<%= heroImg %>"
+          alt="<%= post.title %> — StickVault"
+          class="post-hero-img"
+          width="1024"
+          height="1792"
+          loading="eager"
+          fetchpriority="high"
+          data-pin-do="buttonPin"
+        >
+        <a
+          href="https://pinterest.com/pin/create/button/?url=<%= encodeURIComponent('https://www.stickvault.com/blog/' + post.slug) %>&media=<%= encodeURIComponent(heroImg) %>&description=<%= encodeURIComponent(post.pinterest_description || post.excerpt) %>"
+          class="pinterest-save-btn"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Save to Pinterest"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+          Save
+        </a>
+      </div>
+      <% } %>
+
+      <button type="button" class="cheat-sheet-print-btn" onclick="window.print()" aria-label="Print or save as PDF">
+        <span class="cheat-sheet-print-icon" aria-hidden="true">&#9113;</span>
+        Print / Save as PDF
+      </button>
+
+      <%- include('../partials/profit-estimator') %>
+
+      <div class="post-content" id="post-content-body">
+        <%- post.body %>
+      </div>
+      <!-- Inline email capture — injected after first paragraph via JS -->
+      <div id="inline-capture-slot" style="display:none;">
+        <%- include('../partials/email-capture-inline', { source: 'blog_footer', category: post.category }) %>
+      </div>
+
+      <!-- Internal link — related product from the same category -->
+      <% if (typeof relatedProduct !== 'undefined' && relatedProduct) { %>
+      <div class="post-related-product">
+        <div class="related-product-label">From the Vault Shop</div>
+        <a href="/shop/<%= relatedProduct.slug %>" class="related-product-card">
+          <div class="related-product-info">
+            <div class="related-product-title"><%= relatedProduct.title %></div>
+            <div class="related-product-desc"><%= relatedProduct.description %></div>
+          </div>
+          <div class="related-product-cta">
+            <span class="related-product-price">$<%= (relatedProduct.price_cents / 100).toFixed(0) %></span>
+            <span class="btn btn-primary btn-sm">Get It</span>
+          </div>
+        </a>
+      </div>
+      <% } %>
+
+      <!-- Pinterest share -->
+      <div class="post-share">
+        <div class="share-label">Share this post</div>
+        <div class="share-buttons">
+          <a
+            href="https://pinterest.com/pin/create/button/?url=<%= encodeURIComponent('https://www.stickvault.com/blog/' + post.slug) %>&description=<%= encodeURIComponent(post.pinterest_description || post.excerpt) %>"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="share-btn share-btn--pinterest"
+            data-pin-do="buttonPin"
+            data-link-type="social"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+            Pin It
+          </a>
+          <a
+            href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(post.title) %>&url=<%= encodeURIComponent('https://www.stickvault.com/blog/' + post.slug) %>"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="share-btn share-btn--twitter"
+            data-link-type="social"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            Tweet
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- Related Vault Content — internal linking cluster -->
+<% if (typeof relatedPosts !== 'undefined' && relatedPosts && relatedPosts.length > 0) { %>
+<section class="related-posts">
+  <div class="container">
+    <div class="related-posts-header">
+      <span class="related-posts-label">Related Vault Content</span>
+    </div>
+    <div class="related-posts-grid">
+      <% for (var rp = 0; rp < relatedPosts.length; rp++) { %>
+      <a href="/blog/<%= relatedPosts[rp].slug %>" class="related-post-card">
+        <span class="related-post-cat related-post-cat--<%= relatedPosts[rp].category %>"><%= relatedPosts[rp].category.replace('-', ' ') %></span>
+        <span class="related-post-title"><%= relatedPosts[rp].title %></span>
+        <span class="related-post-meta"><%= relatedPosts[rp].read_time_minutes %> min read &rarr;</span>
+      </a>
+      <% } %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- Email capture — category-aware (collecting → collector magnet) -->
+<%- include('../partials/email-capture-collector', { source: 'blog-post-' + post.category }) %>
+
+<!-- Back to blog -->
+<section class="post-nav">
+  <div class="container">
+    <a href="/blog" class="btn btn-ghost">&larr; Back to the Vault</a>
+    <a href="/blog?category=<%= post.category %>" class="btn btn-ghost">More <%= post.category.replace('-', ' ') %> &rarr;</a>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
+<%- analyticsSnippet %>
+<script src="/js/main.js"></script>
+<script>
+(function () {
+  // Save-as-PDF metadata: print prepended with the cheat-sheet title + brand
+  // so PDF readers index the file correctly when downloaded from the page.
+  var PRINT_TITLE = 'Grading Decision Cheat Sheet — StickVault';
+  window.addEventListener('beforeprint', function () {
+    document.title = PRINT_TITLE;
+  });
+  window.addEventListener('afterprint', function () {
+    document.title = '<%= post.title %> — StickVault';
+  });
+})();
+</script>
+</body>
+</html>

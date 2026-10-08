@@ -1,0 +1,66 @@
+<!-- Lead Magnet: Routines — "The Operator's Daily Playbook" -->
+<!-- Routines/productivity-focused email capture. Context param: source (string) -->
+<section class="email-capture email-capture--magnet email-capture--routines" id="vault-access-routines">
+  <div class="container">
+    <div class="magnet-block magnet-block--flip">
+      <div class="magnet-copy">
+        <div class="section-label">Free Template</div>
+        <h2 class="magnet-headline">The Operator's<br>Daily Playbook</h2>
+        <p class="magnet-sub">A stripped-down daily system for collectors and creators running side projects. Not a productivity app — a one-page framework you'll actually use. Built around the constraint that real collectors have day jobs, families, and 45 good minutes a day.</p>
+        <div class="magnet-bullets">
+          <div class="magnet-bullet">
+            <span class="bullet-dot">◆</span>
+            <span>Morning anchor — the 3 questions that set your day's direction</span>
+          </div>
+          <div class="magnet-bullet">
+            <span class="bullet-dot">◆</span>
+            <span>Weekly vault review — inventory, watchlist, pending submissions</span>
+          </div>
+          <div class="magnet-bullet">
+            <span class="bullet-dot">◆</span>
+            <span>Side hustle blocks — when to ship vs when to research</span>
+          </div>
+        </div>
+        <form class="email-form email-form--magnet" data-source="<%= typeof source !== 'undefined' ? source : 'operator-magnet' %>" data-form-id="operator-magnet">
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            class="email-input"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="btn btn-primary">Get the Playbook</button>
+        </form>
+        <div class="email-form-message magnet-form-message" id="msg-operator-magnet" style="display:none;"></div>
+        <p class="magnet-fine-print">Sent instantly. No spam. Unsubscribe anytime.</p>
+      </div>
+      <div class="magnet-preview">
+        <div class="magnet-doc magnet-doc--playbook">
+          <div class="magnet-doc-header">
+            <span class="magnet-doc-label">Daily System</span>
+            <span class="magnet-doc-title">Operator's<br>Playbook</span>
+          </div>
+          <div class="playbook-sections">
+            <div class="playbook-block">
+              <div class="playbook-block-label">Morning</div>
+              <div class="playbook-block-item">Today's one must-do</div>
+              <div class="playbook-block-item">Open loop to close</div>
+              <div class="playbook-block-item">Vault check (5 min)</div>
+            </div>
+            <div class="playbook-block">
+              <div class="playbook-block-label">Work Block</div>
+              <div class="playbook-block-item">Deep work / research</div>
+              <div class="playbook-block-item">Listings / submissions</div>
+            </div>
+            <div class="playbook-block">
+              <div class="playbook-block-label">Evening</div>
+              <div class="playbook-block-item">Weekly review trigger</div>
+              <div class="playbook-block-item">Next-day setup</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

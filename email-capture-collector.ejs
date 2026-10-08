@@ -1,0 +1,56 @@
+<!-- Lead Magnet: Collector — "The Grading Prep Checklist" -->
+<!-- Collector-focused email capture. Context param: source (string) -->
+<section class="email-capture email-capture--magnet" id="vault-access">
+  <div class="container">
+    <div class="magnet-block">
+      <div class="magnet-preview">
+        <div class="magnet-doc">
+          <div class="magnet-doc-header">
+            <span class="magnet-doc-label">Free Checklist</span>
+            <span class="magnet-doc-title">Grading Prep<br>Checklist</span>
+          </div>
+          <ul class="magnet-doc-list">
+            <li><span class="magnet-check">✓</span> Pre-submission card cleaning workflow</li>
+            <li><span class="magnet-check">✓</span> PSA vs BGS — which grade level triggers the flip</li>
+            <li><span class="magnet-check">✓</span> Sleeve & half-holder packing protocol</li>
+            <li><span class="magnet-check">✓</span> Submission tier selection guide</li>
+            <li><span class="magnet-check">✓</span> Common centering mistakes that kill grades</li>
+            <li><span class="magnet-check">✓</span> Post-return sell-vs-hold decision matrix</li>
+          </ul>
+        </div>
+      </div>
+      <div class="magnet-copy">
+        <div class="section-label">Free Download</div>
+        <h2 class="magnet-headline">The Grading Prep<br>Checklist</h2>
+        <p class="magnet-sub">Every step from raw card to submitted slab — the PSA/BGS prep workflow serious collectors use to protect grades before the package ships. Took years of bad submissions to learn. Yours in 30 seconds.</p>
+        <div class="magnet-bullets">
+          <div class="magnet-bullet">
+            <span class="bullet-dot">◆</span>
+            <span>Cleaning, sleeving, and packing protocols that prevent damage in transit</span>
+          </div>
+          <div class="magnet-bullet">
+            <span class="bullet-dot">◆</span>
+            <span>Grading tier logic — when to upgrade, when bulk is fine</span>
+          </div>
+          <div class="magnet-bullet">
+            <span class="bullet-dot">◆</span>
+            <span>Post-grade sell vs hold decision framework</span>
+          </div>
+        </div>
+        <form class="email-form email-form--magnet" data-source="<%= typeof source !== 'undefined' ? source : 'collector-magnet' %>" data-form-id="collector-magnet">
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            class="email-input"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="btn btn-primary">Unlock the Checklist</button>
+        </form>
+        <div class="email-form-message magnet-form-message" id="msg-collector-magnet" style="display:none;"></div>
+        <p class="magnet-fine-print">Sent instantly. No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </div>
+</section>
