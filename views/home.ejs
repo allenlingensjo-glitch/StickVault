@@ -1,0 +1,186 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span>The Vault is open</span>
+      </div>
+      <h1 class="hero-headline">
+        A vault for people<br>
+        <em class="hero-italic">who go all the way in.</em>
+      </h1>
+      <p class="hero-sub">Rhythm. Collecting. Systems. Discovery. Side moves. Five disciplines. One standard: depth over noise.</p>
+      <!-- Hero email capture — primary conversion action -->
+      <form class="email-form email-form--hero" data-source="homepage" data-form-id="hero-subscribe">
+        <input
+          type="email"
+          name="email"
+          placeholder="your@email.com"
+          class="email-input email-input--hero"
+          required
+          autocomplete="email"
+          aria-label="Email address"
+        >
+        <button type="submit" class="btn btn-primary btn-hero-submit">Join the Vault</button>
+      </form>
+      <div class="email-form-message hero-form-message" id="msg-hero-subscribe" style="display:none;"></div>
+      <p class="hero-fine-print">Free resources inside. No spam.</p>
+      <div class="hero-actions">
+        <a href="/blog" class="btn btn-ghost">Browse Posts</a>
+        <a href="/shop" class="btn btn-ghost">Digital Guides</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="hero-card hero-card--1">
+          <div class="hero-card-label">Drums</div>
+          <div class="hero-card-title">The Practice Blueprint No One Publishes</div>
+        </div>
+        <div class="hero-card hero-card--2">
+          <div class="hero-card-label">Collecting</div>
+          <div class="hero-card-title">How to Spot Card Value Before the Market Does</div>
+        </div>
+        <div class="hero-card hero-card--3">
+          <div class="hero-card-label">Routines</div>
+          <div class="hero-card-title">The Morning System That Actually Survives Real Life</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (typeof heroImage !== 'undefined' && heroImage) { %>
+<img src="<%= heroImage %>" alt="StickVault — A vault for people who go all the way in" class="hero-img-bg">
+<% } %>
+
+<!-- Categories strip -->
+<section class="categories-strip">
+  <div class="container">
+    <div class="category-pills">
+      <a href="/blog?category=drums" class="cat-pill cat-drums">
+        <span class="cat-icon">🥁</span>Drums
+      </a>
+      <a href="/blog?category=collecting" class="cat-pill cat-collecting">
+        <span class="cat-icon">🃏</span>Collecting
+      </a>
+      <a href="/blog?category=side-hustles" class="cat-pill cat-hustles">
+        <span class="cat-icon">⚡</span>Side Hustles
+      </a>
+      <a href="/blog?category=routines" class="cat-pill cat-routines">
+        <span class="cat-icon">🌅</span>Routines
+      </a>
+      <a href="/blog?category=hidden-gems" class="cat-pill cat-gems">
+        <span class="cat-icon">💎</span>Hidden Gems
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Vault Philosophy -->
+<section class="vault-philosophy">
+  <div class="container">
+    <div class="vault-philosophy-inner">
+      <div class="vault-philosophy-header">
+        <div class="section-label">The Standard</div>
+        <h2 class="vault-philosophy-title">Five disciplines.<br>One philosophy.</h2>
+      </div>
+      <div class="vault-pillars-grid">
+        <div class="vault-pillar">
+          <div class="vault-pillar-icon">🥁</div>
+          <div class="vault-pillar-name">Rhythm</div>
+          <p class="vault-pillar-desc">Practice structure, flow state, creative discipline. The side of drumming they don't teach you.</p>
+        </div>
+        <div class="vault-pillar">
+          <div class="vault-pillar-icon">🃏</div>
+          <div class="vault-pillar-name">Collecting</div>
+          <p class="vault-pillar-desc">Ownership with intention. Curation, long-term value, reading markets before they move.</p>
+        </div>
+        <div class="vault-pillar">
+          <div class="vault-pillar-icon">🌅</div>
+          <div class="vault-pillar-name">Systems</div>
+          <p class="vault-pillar-desc">Routines that hold under real conditions. Operational thinking. Consistency without burnout.</p>
+        </div>
+        <div class="vault-pillar">
+          <div class="vault-pillar-icon">💎</div>
+          <div class="vault-pillar-name">Hidden Gems</div>
+          <p class="vault-pillar-desc">The overlooked tools, places, and strategies that most people walk right past.</p>
+        </div>
+        <div class="vault-pillar">
+          <div class="vault-pillar-icon">⚡</div>
+          <div class="vault-pillar-name">Side Moves</div>
+          <p class="vault-pillar-desc">Modern leverage, digital ownership, building quietly. Creator systems with actual structure.</p>
+        </div>
+      </div>
+      <div class="vault-philosophy-cta">
+        <p class="vault-philosophy-note">The discipline of collecting shares DNA with the discipline of practice. Systems thinking connects the morning routine to the side hustle to the record crate. It's one vault.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured posts -->
+<% if (featuredPosts && featuredPosts.length > 0) { %>
+<section class="featured-posts">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">From the Vault</div>
+      <h2 class="section-title">Recent Deep Dives</h2>
+    </div>
+    <div class="posts-grid">
+      <% for (var i = 0; i < featuredPosts.length; i++) { %>
+      <% var post = featuredPosts[i]; %>
+      <a href="/blog/<%= post.slug %>" class="post-card post-card--featured">
+        <div class="post-card-header">
+          <span class="post-cat post-cat--<%= post.category %>"><%= post.category.replace('-', ' ') %></span>
+          <span class="post-read-time"><%= post.read_time_minutes %> min</span>
+        </div>
+        <h3 class="post-card-title"><%= post.title %></h3>
+        <p class="post-card-excerpt"><%= post.excerpt %></p>
+        <span class="post-card-cta">Read →</span>
+      </a>
+      <% } %>
+    </div>
+    <div class="section-footer">
+      <a href="/blog" class="btn btn-outline">All Posts →</a>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- Shop CTA strip -->
+<section class="shop-strip">
+  <div class="container">
+    <div class="shop-strip-inner">
+      <div class="shop-strip-text">
+        <div class="section-label">Vault Shop</div>
+        <h2 class="shop-strip-title">Guides That Work</h2>
+        <p>Systems built from actual practice. Not theory. Collectors, drummers, builders — these were made for you.</p>
+      </div>
+      <% if (featuredProducts && featuredProducts.length > 0) { %>
+      <div class="products-mini-grid">
+        <% for (var j = 0; j < featuredProducts.length; j++) { %>
+        <% var product = featuredProducts[j]; %>
+        <a href="/shop/<%= product.slug %>" class="product-mini-card">
+          <div class="product-mini-price">$<%= (product.price_cents / 100).toFixed(0) %></div>
+          <div class="product-mini-title"><%= product.title %></div>
+          <div class="product-mini-cta">View →</div>
+        </a>
+        <% } %>
+      </div>
+      <% } %>
+      <a href="/shop" class="btn btn-primary">Browse the Shop →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Email capture — Collector lead magnet -->
+<%- include('partials/email-capture-collector', { source: 'homepage' }) %>
+
+<%- include('partials/footer') %>
+<%- analyticsSnippet %>
+<script src="/js/main.js"></script>
+</body>
+</html>

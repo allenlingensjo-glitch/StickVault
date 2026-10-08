@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /subscribe
+
+Sitemap: https://www.stickvault.com/sitemap.xml

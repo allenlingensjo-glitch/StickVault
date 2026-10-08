@@ -1,0 +1,128 @@
+<%- include('../partials/head') %>
+<%- include('../partials/nav') %>
+
+<% if (typeof heroImage !== 'undefined' && heroImage) { %>
+<img src="<%= heroImage %>" alt="The Vault Blog — StickVault" class="hero-img-bg">
+<% } %>
+
+<section class="page-header">
+  <div class="container">
+    <div class="section-label">The Vault</div>
+    <h1 class="page-header-title">
+      <% if (activeCategory) { %>
+        <%= activeCategory.replace('-', ' ') %>
+      <% } else { %>
+        All Posts
+      <% } %>
+    </h1>
+  </div>
+</section>
+
+<!-- Category filter tabs -->
+<section class="blog-filters">
+  <div class="container">
+    <div class="filter-tabs">
+      <a href="/blog" class="filter-tab <%= !activeCategory ? 'filter-tab--active' : '' %>">All</a>
+      <% for (var i = 0; i < categories.length; i++) { %>
+      <% var cat = categories[i]; %>
+      <a href="/blog?category=<%= cat %>" class="filter-tab filter-tab--<%= cat %> <%= activeCategory === cat ? 'filter-tab--active' : '' %>">
+        <%= cat.replace('-', ' ') %>
+      </a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Collecting category: Start Here callout pointing to the Starter Kit -->
+<% if (activeCategory === 'collecting') { %>
+<section class="blog-listing blog-listing--start-here" style="padding-bottom:0;">
+  <div class="container">
+    <div class="category-start-here">
+      <div class="category-start-here-text">
+        <div class="category-start-here-label">Start Here</div>
+        <div class="category-start-here-title">Collector's Vault Starter Kit — the operational system behind everything in this section</div>
+        <p class="category-start-here-desc">Every post below references this kit. Inventory spreadsheet, grading submission log, comp tracker, and sell vs. hold framework — all in one download.</p>
+      </div>
+      <div class="category-start-here-cta">
+        <a href="/shop/collectors-vault-starter-kit" class="btn btn-primary">Get the Starter Kit →</a>
+      </div>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- Posts grid -->
+<section class="blog-listing">
+  <div class="container">
+    <% if (posts && posts.length > 0) { %>
+    <div class="posts-grid posts-grid--full">
+      <% for (var j = 0; j < posts.length; j++) { %>
+      <% var post = posts[j]; %>
+      <a href="/blog/<%= post.slug %>" class="post-card">
+        <div class="post-card-img-wrap">
+          <% if (post.heroPinUrl) { %>
+          <img
+            src="<%= post.heroPinUrl %>"
+            alt="<%= post.title %>"
+            class="post-card-img"
+            loading="lazy"
+            width="300"
+            height="525"
+          >
+          <% } else if (post.pin_image) { %>
+          <img
+            src="<%= post.pin_image %>"
+            alt="<%= post.title %>"
+            class="post-card-img"
+            loading="lazy"
+            width="300"
+            height="525"
+          >
+          <% } %>
+        </div>
+        <div class="post-card-header">
+          <span class="post-cat post-cat--<%= post.category %>"><%= post.category.replace('-', ' ') %></span>
+          <span class="post-read-time"><%= post.read_time_minutes %> min</span>
+        </div>
+        <h2 class="post-card-title"><%= post.title %></h2>
+        <p class="post-card-excerpt"><%= post.excerpt %></p>
+        <span class="post-card-cta">Read &rarr;</span>
+      </a>
+      <% } %>
+    </div>
+    <% } else { %>
+    <div class="empty-state">
+      <p>No posts in this category yet. Check back soon.</p>
+      <a href="/blog" class="btn btn-ghost">See all posts</a>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- Email capture — category-aware -->
+<% if (activeCategory === 'collecting') { %>
+  <%- include('../partials/email-capture-collector', { source: 'blog-index-collecting' }) %>
+<% } else if (activeCategory === 'routines' || activeCategory === 'hidden-gems') { %>
+  <%- include('../partials/email-capture-operator', { source: 'blog-index-' + activeCategory }) %>
+<% } else { %>
+<section class="email-capture email-capture--compact">
+  <div class="container">
+    <div class="email-capture-inner">
+      <div class="email-capture-lock">&#128274;</div>
+      <h2 class="email-capture-title">Get new posts first.</h2>
+      <p class="email-capture-sub">Deep dives and collector finds — straight to your inbox. No spam.</p>
+      <form class="email-form" id="email-form" data-source="blog-index<%= activeCategory ? '-' + activeCategory : '' %>" data-form-id="blog-index">
+        <input type="email" name="email" placeholder="your@email.com" class="email-input" required>
+        <button type="submit" class="btn btn-primary">Get Access</button>
+      </form>
+      <div class="email-form-message" id="msg-blog-index" style="display:none;"></div>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%- include('../partials/footer') %>
+<%- analyticsSnippet %>
+<script src="/js/main.js"></script>
+</body>
+</html>

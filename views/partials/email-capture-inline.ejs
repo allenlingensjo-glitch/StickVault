@@ -1,0 +1,52 @@
+<!-- Inline email capture — compact, mid-post placement -->
+<!-- Appears after first paragraph in high-intent blog posts -->
+<!-- Context param: source (string), category (string) -->
+<!-- Category mapping: drums → Blueprint, routines/hidden-gems/side-hustles → Playbook, else → Checklist -->
+<aside class="inline-capture" id="inline-capture-<%= typeof source !== 'undefined' ? source.replace(/[^a-z0-9]/gi, '-') : 'post' %>">
+  <div class="inline-capture-inner">
+    <div class="inline-capture-left">
+      <div class="inline-capture-label">Free · Instant Access</div>
+      <p class="inline-capture-headline">
+        <% if (typeof category !== 'undefined' && category === 'drums') { %>
+          Get the Drummer's Practice Blueprint
+        <% } else if (typeof category !== 'undefined' && (category === 'routines' || category === 'hidden-gems' || category === 'side-hustles')) { %>
+          Get the Operator's Daily Playbook
+        <% } else { %>
+          Get the Grading Prep Checklist
+        <% } %>
+      </p>
+      <p class="inline-capture-sub">
+        <% if (typeof category !== 'undefined' && category === 'drums') { %>
+          Structured sessions, rudiment progressions, and gear frameworks. Built for drummers who take it seriously.
+        <% } else if (typeof category !== 'undefined' && (category === 'routines' || category === 'hidden-gems' || category === 'side-hustles')) { %>
+          A stripped-down daily system for collectors running side projects. One page. Actually useful.
+        <% } else { %>
+          The PSA/BGS prep workflow serious collectors use before every submission.
+        <% } %>
+      </p>
+    </div>
+    <div class="inline-capture-right">
+      <form class="email-form email-form--inline" data-source="<%= typeof source !== 'undefined' ? source : 'inline-post' %>" data-form-id="inline-<%= typeof source !== 'undefined' ? source.replace(/[^a-z0-9]/gi, '-') : 'post' %>">
+        <input
+          type="email"
+          name="email"
+          placeholder="your@email.com"
+          class="email-input email-input--inline"
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="btn btn-primary btn-inline-submit">
+          <% if (typeof category !== 'undefined' && category === 'drums') { %>
+            Get the Blueprint
+          <% } else if (typeof category !== 'undefined' && (category === 'routines' || category === 'hidden-gems' || category === 'side-hustles')) { %>
+            Get the Playbook
+          <% } else { %>
+            Get the Checklist
+          <% } %>
+        </button>
+      </form>
+      <div class="email-form-message inline-form-message" id="msg-inline-<%= typeof source !== 'undefined' ? source.replace(/[^a-z0-9]/gi, '-') : 'post' %>" style="display:none;"></div>
+      <p class="inline-fine-print">Sent instantly. No spam.</p>
+    </div>
+  </div>
+</aside>

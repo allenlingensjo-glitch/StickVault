@@ -1,0 +1,28 @@
+<!-- Collector Inline CTA — mid-article placement, compact format -->
+<!-- Context params: source (string) -->
+<!-- Use inside blog post bodies for collecting category — compact, non-intrusive -->
+<div class="collector-inline-capture fade-in">
+  <div class="collector-inline-inner">
+    <div class="collector-inline-icon">◆</div>
+    <div class="collector-inline-content">
+      <div class="collector-inline-label">Free Download — The Vault</div>
+      <div class="collector-inline-headline">Get the Collector's Vault Checklist</div>
+      <p class="collector-inline-desc">Grading prep workflow, inventory starter columns, and the sell vs. hold framework — all in one checklist. Used by collectors who want a system, not a pile.</p>
+      <form class="email-form email-form--inline" data-source="<%= typeof source !== 'undefined' ? source : 'inline-collector' %>" data-form-id="inline-collector-<%= typeof source !== 'undefined' ? source.replace(/[^a-z0-9]/g, '-') : 'default' %>">
+        <div class="inline-form-row">
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            class="email-input"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="btn btn-primary btn-sm">Join the Vault</button>
+        </div>
+      </form>
+      <div class="email-form-message" id="msg-inline-collector-<%= typeof source !== 'undefined' ? source.replace(/[^a-z0-9]/g, '-') : 'default' %>" style="display:none;"></div>
+      <p class="collector-inline-fine">Free. No spam. Unsubscribe anytime.</p>
+    </div>
+  </div>
+</div>

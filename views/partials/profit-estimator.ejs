@@ -1,0 +1,142 @@
+<!-- Profit Estimator — client-side widget for the grading side-hustle pillar page.
+     Inputs and outputs update live without a server roundtrip.
+     Multipliers and "PSA Value/Bulk $18" alt tier are illustrative — verify against
+     eBay sold listings before committing capital (matches the worked-example
+     warning in the post body). -->
+<div class="profit-estimator" id="profit-estimator">
+  <div class="profit-estimator-header">
+    <span class="profit-estimator-label">Profit Estimator</span>
+    <p class="profit-estimator-sub">Run your own numbers before you ship the submission.</p>
+  </div>
+
+  <div class="profit-estimator-grid">
+    <div class="profit-estimator-field">
+      <label for="pe-cards-count">Cards to grade</label>
+      <input
+        type="number"
+        id="pe-cards-count"
+        class="profit-estimator-input"
+        min="1"
+        step="1"
+        value="10"
+      >
+    </div>
+    <div class="profit-estimator-field">
+      <label for="pe-raw-value">Average raw card value ($)</label>
+      <input
+        type="number"
+        id="pe-raw-value"
+        class="profit-estimator-input"
+        min="0"
+        step="0.01"
+        value="25"
+      >
+    </div>
+  </div>
+
+  <div class="profit-estimator-tier-row" id="pe-tier-row">
+    <button type="button" class="btn btn-ghost is-active" data-tier="PSA 10"  data-fee="25" data-mult="7.2">PSA 10</button>
+    <button type="button" class="btn btn-ghost"           data-tier="PSA 9"   data-fee="25" data-mult="1.8">PSA 9</button>
+    <button type="button" class="btn btn-ghost"           data-tier="BGS 9.5" data-fee="30" data-mult="5.4">BGS 9.5</button>
+    <button type="button" class="btn btn-ghost"           data-tier="SGC 9.5" data-fee="25" data-mult="3.6">SGC 9.5</button>
+  </div>
+
+  <div class="profit-estimator-results" id="pe-results">
+    <div class="profit-estimator-result">
+      <div class="profit-estimator-result-label">Projected post-grade value</div>
+      <div class="profit-estimator-result-value" id="pe-projected-sale">$0.00</div>
+    </div>
+    <div class="profit-estimator-result">
+      <div class="profit-estimator-result-label">Grading fee subtotal</div>
+      <div class="profit-estimator-result-value" id="pe-grading-fees">$0.00</div>
+    </div>
+    <div class="profit-estimator-result profit-estimator-result--net">
+      <div class="profit-estimator-result-label">Net profit</div>
+      <div class="profit-estimator-result-value" id="pe-net-profit">$0.00</div>
+    </div>
+  </div>
+
+  <p class="profit-estimator-footnote">
+    Net = projected sale − grading fees − raw cost − 13% eBay fee − $4 shipping per card.
+    Multipliers and fees are illustrative defaults — verify against current eBay sold comps.
+  </p>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Fee values mirror the per-tier table in routes/blog.js (PSA Regular $25,
+  // BGS Standard $30, SGC Standard $25). The PSA body of the post also
+  // documents the Value/Bulk $18 alt tier; this widget defaults to Regular.
+  // Multipliers are illustrative defaults — verify against eBay sold comps.
+  var EBAY_CUT = 0.13;
+  var SHIP_FEE = 4;
+
+  var USDFmt = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  });
+
+  var root = document.getElementById('profit-estimator');
+  if (!root) return;
+
+  var cardsInput  = document.getElementById('pe-cards-count');
+  var rawInput    = document.getElementById('pe-raw-value');
+  var tierRow     = document.getElementById('pe-tier-row');
+  var projEl      = document.getElementById('pe-projected-sale');
+  var feesEl      = document.getElementById('pe-grading-fees');
+  var netEl       = document.getElementById('pe-net-profit');
+
+  var activeTier = tierRow.querySelector('.is-active');
+
+  function readNum(input, fallback) {
+    var v = parseFloat(input.value);
+    return isFinite(v) && v >= 0 ? v : fallback;
+  }
+
+  function recalc() {
+    var cards = readNum(cardsInput, 0);
+    var raw   = readNum(rawInput, 0);
+    if (cards === 0) cards = 0;
+    if (raw   < 0)   raw   = 0;
+    if (!activeTier) return;
+
+    var fee  = parseFloat(activeTier.getAttribute('data-fee'));
+    var mult = parseFloat(activeTier.getAttribute('data-mult'));
+    if (!isFinite(fee) || fee < 0)   fee  = 0;
+    if (!isFinite(mult) || mult < 0) mult = 0;
+
+    var projectedSale = cards * raw * mult;
+    var gradingFees   = cards * fee;
+    var rawCost       = cards * raw;
+    var ebayFee       = projectedSale * EBAY_CUT;
+    var shipCost      = cards * SHIP_FEE;
+    var netProfit     = projectedSale - gradingFees - rawCost - ebayFee - shipCost;
+
+    projEl.textContent = USDFmt.format(projectedSale);
+    feesEl.textContent = USDFmt.format(gradingFees);
+    netEl.textContent  = USDFmt.format(netProfit);
+  }
+
+  // Keep the active tier row readable on quantities: encode the tier on the
+  // widget itself rather than the document so we don't leak state globally.
+  function setActive(btn) {
+    if (!btn || btn === activeTier) return;
+    if (activeTier) activeTier.classList.remove('is-active');
+    btn.classList.add('is-active');
+    activeTier = btn;
+  }
+
+  cardsInput.addEventListener('input', recalc);
+  rawInput.addEventListener('input', recalc);
+  tierRow.addEventListener('click', function (e) {
+    var btn = e.target.closest('button[data-tier]');
+    if (!btn) return;
+    setActive(btn);
+    recalc();
+  });
+
+  recalc();
+})();
+</script>

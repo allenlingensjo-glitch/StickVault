@@ -1,0 +1,171 @@
+<%- include('../partials/head') %>
+<%- include('../partials/nav') %>
+
+
+<section class="product-detail">
+  <div class="container">
+    <div class="product-detail-grid">
+
+      <!-- Left: all product content -->
+      <div class="product-detail-info">
+        <a href="/shop" class="back-link">&larr; Back to shop</a>
+        <% if (product.category) { %>
+        <span class="product-cat product-cat--<%= product.category %>"><%= product.category.replace(/-/g, ' ') %></span>
+        <% } %>
+        <h1 class="product-detail-title"><%= product.title %></h1>
+        <p class="product-detail-tagline"><%= product.description %></p>
+
+        <!-- Long description -->
+        <% if (product.long_description) { %>
+        <div class="product-long-desc">
+          <p><%= product.long_description %></p>
+        </div>
+        <% } %>
+
+        <!-- Who this is for -->
+        <% if (product.for_whom) { %>
+        <div class="product-for-whom fade-in">
+          <div class="section-label">Who this is for</div>
+          <p class="for-whom-text"><%= product.for_whom %></p>
+        </div>
+        <% } %>
+
+        <!-- Inside the Vault — deliverable previews -->
+        <% if (product.vault_sections && product.vault_sections.length > 0) { %>
+        <div class="product-vault-section fade-in">
+          <div class="vault-section-header">
+            <div class="section-label">Inside the Vault</div>
+            <p class="vault-section-sub">Exactly what you get — no vague "toolkit" language.</p>
+          </div>
+          <div class="vault-items">
+            <% for (var i = 0; i < product.vault_sections.length; i++) { %>
+            <% var vs = product.vault_sections[i]; %>
+            <div class="vault-item">
+              <div class="vault-item-header">
+                <span class="vault-item-num">0<%= i + 1 %></span>
+                <span class="vault-item-label"><%= vs.label %></span>
+              </div>
+              <div class="vault-item-preview"><%= vs.preview %></div>
+              <% if (vs.detail) { %>
+              <div class="vault-item-detail"><%= vs.detail %></div>
+              <% } %>
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <% } %>
+
+        <!-- What's included checklist -->
+        <% if (product.features && product.features.length > 0) { %>
+        <div class="product-features fade-in">
+          <div class="product-features-label">Everything included</div>
+          <ul class="features-list">
+            <% for (var j = 0; j < product.features.length; j++) { %>
+            <li class="features-item">
+              <span class="features-check">&#10003;</span>
+              <%= product.features[j] %>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+        <% } %>
+
+        <!-- Use case examples -->
+        <% if (product.use_cases && product.use_cases.length > 0) { %>
+        <div class="product-use-cases fade-in">
+          <div class="section-label">How you'll actually use this</div>
+          <div class="use-cases-list">
+            <% for (var k = 0; k < product.use_cases.length; k++) { %>
+            <div class="use-case-item">
+              <span class="use-case-arrow">→</span>
+              <span class="use-case-text"><%= product.use_cases[k] %></span>
+            </div>
+            <% } %>
+          </div>
+        </div>
+        <% } %>
+
+        <!-- Outcomes -->
+        <% if (product.outcomes && product.outcomes.length > 0) { %>
+        <div class="product-outcomes fade-in">
+          <div class="section-label">What changes after this</div>
+          <ul class="outcomes-list">
+            <% for (var m = 0; m < product.outcomes.length; m++) { %>
+            <li class="outcome-item">
+              <span class="outcome-dot"></span>
+              <%= product.outcomes[m] %>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+        <% } %>
+
+        <!-- Featured in Vault Posts — shown when featuredIn list is passed (e.g., collector kit) -->
+        <% if (typeof featuredIn !== 'undefined' && featuredIn && featuredIn.length > 0) { %>
+        <div class="product-featured-in fade-in">
+          <div class="section-label">As referenced in</div>
+          <ul class="featured-in-list">
+            <% for (var fi = 0; fi < featuredIn.length; fi++) { %>
+            <li class="featured-in-item">
+              <span class="featured-in-arrow">→</span>
+              <a href="/blog/<%= featuredIn[fi].slug %>" class="featured-in-link"><%= featuredIn[fi].title %></a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
+        <% } %>
+
+      </div>
+
+      <!-- Right: sticky buy box -->
+      <div class="product-buy-box">
+        <div class="buy-box-inner">
+          <div class="buy-box-price">$<%= (product.price_cents / 100).toFixed(0) %></div>
+          <div class="buy-box-type">Digital download — instant access</div>
+          <a href="<%= product.stripe_url %>" class="btn btn-primary buy-box-cta" target="_blank" rel="noopener" data-link-type="checkout">
+            Get the <%= product.title.split(' ').slice(-2).join(' ') %> — $<%= (product.price_cents / 100).toFixed(0) %>
+          </a>
+          <div class="buy-box-trust">
+            <div class="trust-mini">🔒 Secure checkout via Stripe</div>
+            <div class="trust-mini">⚡ Download link delivered immediately</div>
+            <div class="trust-mini">📄 PDF + template format</div>
+            <div class="trust-mini">🔁 Keep it forever — no subscription</div>
+          </div>
+
+          <!-- Specificity as trust signal -->
+          <% if (product.features && product.features.length > 0) { %>
+          <div class="buy-box-includes">
+            <div class="buy-box-includes-label">Includes <%= product.features.length %> components</div>
+            <ul class="buy-box-features">
+              <% var maxPreview = Math.min(4, product.features.length); %>
+              <% for (var n = 0; n < maxPreview; n++) { %>
+              <li><%- product.features[n].split('—')[0].trim() %></li>
+              <% } %>
+              <% if (product.features.length > maxPreview) { %>
+              <li class="buy-box-features-more">+ <%= product.features.length - maxPreview %> more</li>
+              <% } %>
+            </ul>
+          </div>
+          <% } %>
+        </div>
+
+        <!-- Mobile CTA (shows below content on small screens) -->
+        <div class="buy-box-mobile-sticky">
+          <a href="<%= product.stripe_url %>" class="btn btn-primary" target="_blank" rel="noopener" style="width:100%;justify-content:center;" data-link-type="checkout">
+            Buy Now — $<%= (product.price_cents / 100).toFixed(0) %>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Email capture — operator magnet on product pages (captured buyers want productivity) -->
+<%- include('../partials/email-capture-operator', { source: 'shop-product' }) %>
+
+<%- include('../partials/footer') %>
+<%- analyticsSnippet %>
+<script src="/js/main.js"></script>
+</body>
+</html>

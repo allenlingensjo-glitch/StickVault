@@ -1,0 +1,652 @@
+<%- include('../partials/head') %>
+<%- include('../partials/nav') %>
+
+<style>
+  /* ── Layout ─────────────────────────────────────────────────────────────── */
+  .pg-wrap { max-width: 1300px; margin: 0 auto; padding: 2rem 1.5rem 6rem; }
+
+  .pg-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+  .pg-header h1 {
+    font-family: var(--font-display); font-size: 2rem; font-weight: 900;
+    color: var(--text-primary); margin: 0 0 0.35rem;
+  }
+  .pg-header p { color: var(--text-secondary); font-size: 0.9rem; margin: 0 0 1rem; }
+  .pg-nav-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .pg-nav-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text-secondary); font-size: 0.78rem; font-weight: 600;
+    padding: 0.35rem 0.85rem; border-radius: 20px; text-decoration: none;
+    transition: all .15s;
+  }
+  .pg-nav-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── Section containers ──────────────────────────────────────────────────── */
+  .pg-section {
+    margin-bottom: 3.5rem;
+    scroll-margin-top: 72px;
+  }
+  .pg-section-title {
+    font-family: var(--font-display); font-size: 1.35rem; font-weight: 900;
+    color: var(--text-primary); margin: 0 0 0.25rem;
+    display: flex; align-items: center; gap: 0.65rem;
+  }
+  .pg-section-title .section-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: #000;
+    font-size: 0.78rem; font-weight: 900; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .pg-section-subtitle { color: var(--text-secondary); font-size: 0.85rem; margin: 0 0 1.5rem; padding-left: 2.5rem; }
+
+  /* ── Buttons ─────────────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.55rem 1.1rem; border-radius: 6px; font-weight: 700; font-size: 0.82rem;
+    cursor: pointer; white-space: nowrap; border: none; text-decoration: none;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .82; }
+  .btn-gold  { background: var(--accent); color: #000; }
+  .btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .btn-dark  { background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border); }
+  .btn-sm    { padding: 0.28rem 0.65rem; font-size: 0.72rem; }
+
+  .copy-btn {
+    flex-shrink: 0; background: transparent; border: 1px solid var(--border);
+    color: var(--text-muted); cursor: pointer; border-radius: 4px;
+    padding: 0.18rem 0.55rem; font-size: 0.68rem; font-weight: 600;
+    transition: all .15s; white-space: nowrap;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { border-color: #4a9a4a; color: #6dbe6d; }
+
+  /* ── Quick-start guide ───────────────────────────────────────────────────── */
+  .quickstart-steps { display: flex; flex-direction: column; gap: 1rem; }
+  .qs-step {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem 1.25rem;
+    display: grid; grid-template-columns: 32px 1fr; gap: 0 1rem; align-items: start;
+  }
+  .qs-step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(212,175,55,.12); border: 1px solid rgba(212,175,55,.35);
+    color: var(--accent); font-size: 0.8rem; font-weight: 900;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+  }
+  .qs-step-body { }
+  .qs-step-title { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+  .qs-step-desc  { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.55; }
+  .qs-step-desc code {
+    background: rgba(212,175,55,.1); color: var(--accent);
+    padding: 0.1rem 0.35rem; border-radius: 3px; font-size: 0.78rem;
+  }
+  .qs-step-desc a { color: var(--accent); }
+
+  /* ── Board setup ─────────────────────────────────────────────────────────── */
+  .board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .board-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .board-card-name {
+    font-size: 0.92rem; font-weight: 700; color: var(--text-primary);
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;
+  }
+  .board-pillar-tag {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: .08em;
+    padding: 0.2rem 0.5rem; border-radius: 3px;
+    background: #2a2010; color: var(--accent); text-transform: uppercase;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .board-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+  .board-cover { font-size: 0.7rem; color: var(--text-muted); }
+  .board-cover span { color: var(--accent); }
+
+  /* ── Posting schedule ────────────────────────────────────────────────────── */
+  .schedule-table-wrap { overflow-x: auto; }
+  .schedule-table {
+    width: 100%; border-collapse: collapse; font-size: 0.82rem;
+  }
+  .schedule-table th {
+    text-align: left; padding: 0.6rem 0.8rem;
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--text-muted); font-weight: 700;
+  }
+  .schedule-table td {
+    padding: 0.7rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,.04);
+    vertical-align: top;
+  }
+  .schedule-table tr:last-child td { border-bottom: none; }
+  .schedule-table tr:hover td { background: rgba(255,255,255,.02); }
+  .sched-day { font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+  .sched-times { color: var(--text-muted); font-size: 0.72rem; font-family: var(--font-mono); }
+  .sched-pins  { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .sched-pin-badge {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    background: rgba(212,175,55,.09); border: 1px solid rgba(212,175,55,.25);
+    color: var(--accent); font-size: 0.72rem; font-weight: 700;
+    padding: 0.18rem 0.55rem; border-radius: 4px;
+    cursor: pointer; text-decoration: none; white-space: nowrap;
+    transition: background .15s;
+  }
+  .sched-pin-badge:hover { background: rgba(212,175,55,.18); }
+  .sched-rest { color: var(--text-muted); font-style: italic; font-size: 0.78rem; }
+
+  /* ── Gallery (pillar sections) ───────────────────────────────────────────── */
+  .pillar-block { margin-bottom: 2.5rem; }
+  .pillar-heading {
+    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border); padding-bottom: 0.65rem;
+  }
+  .pillar-tag {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: .1em;
+    padding: 0.2rem 0.55rem; border-radius: 3px;
+    background: #2a2010; color: var(--accent); text-transform: uppercase;
+  }
+  .pillar-count { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+  /* Per-pin posting card */
+  .pin-post-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 1.25rem; overflow: hidden;
+  }
+  .pin-post-inner {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+  }
+
+  /* Thumb */
+  .pp-thumb-col { position: relative; }
+  .pp-thumb {
+    width: 110px; min-height: 165px; object-fit: cover; display: block;
+    background: #0e0e0e; border-right: 1px solid var(--border);
+  }
+  .pp-thumb-placeholder {
+    width: 110px; min-height: 165px; background: #0e0e0e;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.4rem; border-right: 1px solid var(--border);
+  }
+  .pp-thumb-placeholder span { font-size: 0.6rem; color: var(--text-muted); text-align: center; padding: 0 0.5rem; }
+  .pp-dl-btn {
+    display: block; width: 110px;
+    background: rgba(212,175,55,.1); color: var(--accent);
+    text-align: center; font-size: 0.66rem; font-weight: 700;
+    padding: 0.38rem 0; text-decoration: none;
+    border-top: 1px solid rgba(212,175,55,.18); transition: background .15s;
+  }
+  .pp-dl-btn:hover { background: rgba(212,175,55,.22); }
+
+  /* Content */
+  .pp-content { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .pp-header { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; }
+  .pp-num { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); }
+  .pp-board-tag {
+    font-size: 0.6rem; font-weight: 700; color: var(--accent); letter-spacing: .06em;
+    border: 1px solid rgba(212,175,55,.3); border-radius: 3px; padding: 0.1rem 0.4rem;
+  }
+  .pp-headline { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); line-height: 1.4; }
+
+  /* Field rows inside card */
+  .pp-field { display: flex; flex-direction: column; gap: 0.15rem; }
+  .pp-label {
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--text-muted); font-weight: 700;
+  }
+  .pp-val-row { display: flex; align-items: flex-start; gap: 0.5rem; }
+  .pp-val {
+    font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; flex: 1;
+    word-break: break-word;
+  }
+  .pp-val a { color: var(--accent); text-decoration: none; }
+  .pp-val a:hover { text-decoration: underline; }
+
+  /* Divider */
+  .pp-divider { border: none; border-top: 1px dashed rgba(255,255,255,.06); margin: 0.2rem 0; }
+
+  /* Char count hint */
+  .char-hint { font-size: 0.62rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+  /* ── Tips callout ────────────────────────────────────────────────────────── */
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .tip-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 1rem 1.2rem;
+  }
+  .tip-icon { font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .tip-title { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+  .tip-body  { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.55; }
+
+  /* ── Sticky section nav ──────────────────────────────────────────────────── */
+  .section-divider {
+    display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;
+  }
+  .section-divider::before, .section-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .section-divider-text {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--text-muted); font-weight: 700; white-space: nowrap;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .pin-post-inner { grid-template-columns: 72px 1fr; }
+    .pp-thumb, .pp-thumb-placeholder, .pp-dl-btn { width: 72px; }
+    .pp-thumb { min-height: 108px; }
+    .pp-thumb-placeholder { min-height: 108px; }
+    .board-grid { grid-template-columns: 1fr; }
+    .tips-grid  { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="pg-wrap">
+
+  <!-- ── Page header ─────────────────────────────────────────────────────────── -->
+  <div class="pg-header">
+    <h1>📌 Pinterest Posting Guide</h1>
+    <p>Everything you need to post all 30 pins manually. Images, copy, schedule, and board setup — one page, zero hunting.</p>
+    <div class="pg-nav-pills">
+      <a href="#quickstart" class="pg-nav-pill">① Quick-Start</a>
+      <a href="#boards" class="pg-nav-pill">② Board Setup</a>
+      <a href="#schedule" class="pg-nav-pill">③ 2-Week Schedule</a>
+      <a href="#gallery" class="pg-nav-pill">④ All 30 Pins</a>
+      <a href="/admin/pinterest-pins" class="pg-nav-pill" style="margin-left:auto;">→ Pin Dashboard</a>
+      <a href="/api/pinterest-pins/export.csv" class="pg-nav-pill">⬇ CSV Export</a>
+      <a href="/api/pinterest-pins/batch.zip" class="pg-nav-pill">⬇ ZIP All Images</a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1 — Quick-Start Guide                                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="pg-section" id="quickstart">
+    <div class="pg-section-title">
+      <span class="section-num">1</span>
+      Quick-Start Guide
+    </div>
+    <p class="pg-section-subtitle">From zero to posting in under an hour. Do these once, then the daily routine is 10–15 min.</p>
+
+    <div class="quickstart-steps">
+
+      <div class="qs-step">
+        <div class="qs-step-num">1</div>
+        <div class="qs-step-body">
+          <div class="qs-step-title">Create a Pinterest Business Account</div>
+          <div class="qs-step-desc">
+            Go to <a href="https://business.pinterest.com" target="_blank">business.pinterest.com</a> → Create account (or convert your existing personal account).
+            Use <strong>StickVault</strong> as the business name. Category: <strong>Other</strong> or <strong>Education</strong>.
+            This unlocks Pinterest Analytics, Rich Pins, and ad tools you'll want later.
+          </div>
+        </div>
+      </div>
+
+      <div class="qs-step">
+        <div class="qs-step-num">2</div>
+        <div class="qs-step-body">
+          <div class="qs-step-title">Claim Your Website (Required for Rich Pins)</div>
+          <div class="qs-step-desc">
+            In your Pinterest Business settings → <strong>Claimed accounts</strong> → claim <code>stickvault.com</code>.
+            Pinterest will give you an HTML meta tag. Set the <code>PINTEREST_VERIFICATION_TOKEN</code> environment variable in Render with that value —
+            the tag is already wired into the site's <code>&lt;head&gt;</code>. Once deployed, go back and click Verify.
+            Rich Pins unlock after claim (images, title, and description pull automatically from your blog posts).
+          </div>
+        </div>
+      </div>
+
+      <div class="qs-step">
+        <div class="qs-step-num">3</div>
+        <div class="qs-step-body">
+          <div class="qs-step-title">Enable Rich Pins</div>
+          <div class="qs-step-desc">
+            After claiming your site, go to the
+            <a href="https://developers.pinterest.com/tools/url-debugger/" target="_blank">Pinterest Rich Pins Validator</a>
+            and paste any blog post URL (e.g. <code>https://www.stickvault.com/blog/grading-service-comparison-psa-bgs-sgc-cgc</code>).
+            If the site is claimed and verified, you'll see a "Your pins have been validated" message. Click <strong>Apply Now</strong>.
+            Rich Pins take 24–48h to activate. After activation, every pin you create from a blog URL will auto-pull title + description from the page.
+          </div>
+        </div>
+      </div>
+
+      <div class="qs-step">
+        <div class="qs-step-num">4</div>
+        <div class="qs-step-body">
+          <div class="qs-step-title">Create Your 6 Boards</div>
+          <div class="qs-step-desc">
+            Create one board per pillar (see Section 2 below for exact names and descriptions to copy-paste).
+            Set all boards to <strong>Public</strong>. Pinterest boards rank in search — exact names matter.
+            Add a board cover later once you have a few pins posted (use the strongest image from that pillar).
+          </div>
+        </div>
+      </div>
+
+      <div class="qs-step">
+        <div class="qs-step-num">5</div>
+        <div class="qs-step-body">
+          <div class="qs-step-title">Download Pin Images</div>
+          <div class="qs-step-desc">
+            Use the <a href="/api/pinterest-pins/batch.zip">⬇ ZIP download</a> to get all 30 images at once,
+            or download individually from the gallery below. Save them organized by the file name
+            (e.g. <code>pin_01.png</code>). The schedule below tells you which file to post each day.
+          </div>
+        </div>
+      </div>
+
+      <div class="qs-step">
+        <div class="qs-step-num">6</div>
+        <div class="qs-step-body">
+          <div class="qs-step-title">Daily Posting Routine (10–15 min/day)</div>
+          <div class="qs-step-desc">
+            1. Check the schedule (Section 3) for today's pins and their optimal posting times.<br>
+            2. Go to Pinterest → <strong>Create</strong> → <strong>Create Pin</strong>.<br>
+            3. Upload the pin image.<br>
+            4. Find the pin in Section 4 below. Copy the <strong>Title</strong>, <strong>Description</strong>, and <strong>UTM-Tagged URL</strong> (use the UTM URL, not the plain one).<br>
+            5. Paste each field. Select the correct <strong>Board</strong>.<br>
+            6. Set a <strong>publish date/time</strong> matching the schedule, or post immediately if you prefer.<br>
+            7. Hit Publish. Mark the pin as <strong>Posted ✓</strong> in the <a href="/admin/pinterest-pins">Pin Dashboard</a>.
+          </div>
+        </div>
+      </div>
+
+      <div class="qs-step">
+        <div class="qs-step-num">7</div>
+        <div class="qs-step-body">
+          <div class="qs-step-title">After 2 Weeks: Check Analytics</div>
+          <div class="qs-step-desc">
+            In Pinterest Analytics, look at <strong>Impressions</strong> and <strong>Outbound clicks</strong> by pin.
+            Which pillar drove the most traffic? Which image format got the most saves?
+            Double down on what's working. The Collecting pillar (PSA/BGS/grading content) typically outperforms on Pinterest
+            because collector audiences search actively — watch pin 1, 3, and 20.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2 — Board Setup                                               -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="pg-section" id="boards">
+    <div class="pg-section-title">
+      <span class="section-num">2</span>
+      Board Setup
+    </div>
+    <p class="pg-section-subtitle">Create these 6 boards before you post. Exact names below — copy the name and description directly into Pinterest.</p>
+
+    <div class="board-grid">
+      <% BOARD_GUIDE.forEach(board => { %>
+      <div class="board-card">
+        <div class="board-card-name">
+          <span><%= board.name %></span>
+          <span class="board-pillar-tag"><%= board.pillar %></span>
+        </div>
+        <div class="board-desc"><%= board.description %></div>
+        <div class="board-cover">First cover pin: <span>PIN-<%= String(board.coverPin).padStart(2,'0') %></span></div>
+        <div style="display:flex;gap:0.4rem;margin-top:0.25rem;">
+          <button class="copy-btn" onclick="copyText(this, <%= JSON.stringify(board.name) %>)">Copy name</button>
+          <button class="copy-btn" onclick="copyText(this, <%= JSON.stringify(board.description) %>)">Copy description</button>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+
+    <div style="margin-top:1.25rem; padding:0.9rem 1.25rem; background:rgba(212,175,55,.06); border:1px solid rgba(212,175,55,.2); border-radius:8px; font-size:0.82rem; color:var(--text-secondary);">
+      <strong style="color:var(--accent);">Board tip:</strong> Don't create the boards all at once and leave them empty.
+      Create a board right before you're about to pin something to it. Pinterest doesn't penalize empty boards, but
+      it looks cleaner and the algorithm favors active boards with fresh content.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3 — 2-Week Posting Schedule                                   -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="pg-section" id="schedule">
+    <div class="pg-section-title">
+      <span class="section-num">3</span>
+      2-Week Posting Schedule
+    </div>
+    <p class="pg-section-subtitle">
+      2–3 pins/day starting May 17. Collecting-heavy at the start (deepest content, best search intent).
+      Optimal times: <strong>8–11pm</strong> (peak), <strong>2–4pm</strong> (secondary), <strong>8–11am</strong> (morning).
+      Click any pin badge to jump to its copy below.
+    </p>
+
+    <div class="schedule-table-wrap">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Post Times (ET)</th>
+            <th>Pins to Post</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% POSTING_SCHEDULE.forEach(day => { %>
+          <tr>
+            <td>
+              <div class="sched-day">Day <%= day.day %></div>
+              <div style="font-size:0.72rem;color:var(--text-muted);font-family:var(--font-mono)"><%= day.dayLabel %></div>
+            </td>
+            <td>
+              <% if (day.times.length > 0) { %>
+              <div class="sched-times"><%= day.times.join(' · ') %></div>
+              <% } else { %>
+              <span class="sched-rest">—</span>
+              <% } %>
+            </td>
+            <td>
+              <% if (day.pins.length > 0) { %>
+              <div class="sched-pins">
+                <% day.pins.forEach((pinNum, i) => { %>
+                <%
+                  const p = pinMap[pinNum];
+                  const pillarShort = p ? p.pillar.slice(0,4) : '?';
+                %>
+                <a href="#pin-<%= pinNum %>" class="sched-pin-badge">
+                  PIN-<%= String(pinNum).padStart(2,'0') %>
+                  <span style="font-size:0.6rem;opacity:.7;text-transform:uppercase;letter-spacing:.06em"><%= pillarShort %></span>
+                </a>
+                <% }) %>
+              </div>
+              <% } else { %>
+              <span class="sched-rest">Rest day — check analytics, reshare best performer</span>
+              <% } %>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4 — All 30 Pins with copy-ready content                       -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="pg-section" id="gallery">
+    <div class="pg-section-title">
+      <span class="section-num">4</span>
+      All 30 Pins — Copy-Ready Content
+    </div>
+    <p class="pg-section-subtitle">
+      Everything you need per pin: image, Pinterest title, description with hashtags, UTM-tagged URL, and board. Use the UTM URL (not the plain one) — it tracks Pinterest traffic in analytics.
+    </p>
+
+    <%
+      function pad(n) { return String(n).padStart(2,'0'); }
+    %>
+
+    <% PILLAR_ORDER.forEach(pillar => { %>
+    <% const group = grouped[pillar]; if (!group || !group.length) return; %>
+
+    <div class="pillar-block">
+      <div class="pillar-heading">
+        <span class="pillar-tag"><%= PILLAR_LABELS[pillar] %></span>
+        <span class="pillar-count"><%= group.length %> pins</span>
+      </div>
+
+      <% group.forEach(pin => { %>
+      <%
+        const pNum = pad(pin.pin_number);
+        const desc = pin.description || '';
+        const destUrl = pin.destination_url || '';
+        const utmUrl  = pin.utm_url || '';
+        const board   = pin.board || '';
+        const charCount = desc.length;
+      %>
+      <div class="pin-post-card" id="pin-<%= pin.pin_number %>">
+        <div class="pin-post-inner">
+
+          <!-- Thumbnail -->
+          <div class="pp-thumb-col">
+            <% if (pin.r2_url) { %>
+              <img class="pp-thumb" src="<%= pin.r2_url %>" alt="Pin <%= pNum %>" loading="lazy">
+              <a href="<%= pin.r2_url %>" download="pin_<%= pNum %>.png" class="pp-dl-btn">⬇ pin_<%= pNum %>.png</a>
+            <% } else { %>
+              <div class="pp-thumb-placeholder">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span><%= pin.status === 'failed' ? '✕ failed' : 'not generated' %></span>
+              </div>
+            <% } %>
+          </div>
+
+          <!-- Content -->
+          <div class="pp-content">
+
+            <!-- Header row -->
+            <div class="pp-header">
+              <span class="pp-num">PIN-<%= pNum %></span>
+              <% if (board) { %><span class="pp-board-tag">📌 <%= board %></span><% } %>
+            </div>
+
+            <!-- Title -->
+            <div class="pp-field">
+              <div class="pp-label">Pinterest Title <span class="char-hint">(<%= pin.headline.length %> / 100 chars)</span></div>
+              <div class="pp-val-row">
+                <div class="pp-val" style="font-weight:700;"><%= pin.headline %></div>
+                <button class="copy-btn" onclick="copyText(this, <%= JSON.stringify(pin.headline) %>)">Copy</button>
+              </div>
+            </div>
+
+            <hr class="pp-divider">
+
+            <!-- Description -->
+            <% if (desc) { %>
+            <div class="pp-field">
+              <div class="pp-label">Pinterest Description <span class="char-hint">(<%= charCount %> / 500 chars)</span></div>
+              <div class="pp-val-row">
+                <div class="pp-val" style="font-size:0.76rem;"><%= desc %></div>
+                <button class="copy-btn" onclick="copyText(this, <%= JSON.stringify(desc) %>)">Copy</button>
+              </div>
+            </div>
+            <hr class="pp-divider">
+            <% } %>
+
+            <!-- UTM URL (primary) -->
+            <% if (utmUrl) { %>
+            <div class="pp-field">
+              <div class="pp-label">Destination URL (use this — UTM tagged)</div>
+              <div class="pp-val-row">
+                <div class="pp-val" style="font-size:0.7rem;word-break:break-all;font-family:var(--font-mono);"><%= utmUrl %></div>
+                <button class="copy-btn btn-gold" style="background:rgba(212,175,55,.15);border-color:rgba(212,175,55,.5);color:var(--accent);" onclick="copyText(this, <%= JSON.stringify(utmUrl) %>)">Copy URL</button>
+              </div>
+            </div>
+            <% } else if (destUrl) { %>
+            <div class="pp-field">
+              <div class="pp-label">Destination URL</div>
+              <div class="pp-val-row">
+                <div class="pp-val"><a href="<%= destUrl %>" target="_blank"><%= destUrl %></a></div>
+                <button class="copy-btn" onclick="copyText(this, <%= JSON.stringify(destUrl) %>)">Copy URL</button>
+              </div>
+            </div>
+            <% } %>
+
+          </div><!-- /pp-content -->
+        </div><!-- /pin-post-inner -->
+      </div><!-- /pin-post-card -->
+      <% }) %>
+    </div><!-- /pillar-block -->
+    <% }) %>
+
+  </div><!-- /section gallery -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — Posting Tips                                              -->
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="pg-section" id="tips">
+    <div class="pg-section-title">
+      <span class="section-num">5</span>
+      Posting Tips
+    </div>
+    <p class="pg-section-subtitle">Things that move the needle on Pinterest, based on how the algorithm works.</p>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">⏰</div>
+        <div class="tip-title">Timing beats quantity</div>
+        <div class="tip-body">Pinterest's best windows are 8–11pm, 2–4pm, and 8–11am ET. Posting at off-peak times means the algorithm shows your pin to fewer people during its initial boost window. Stick to the schedule.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📝</div>
+        <div class="tip-title">Always use the UTM URL</div>
+        <div class="tip-body">The UTM-tagged URLs include <code>utm_content=pin_XX</code> so you can see in analytics exactly which pin drove which traffic. Don't use the plain destination URL — you'll lose that attribution.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📌</div>
+        <div class="tip-title">Don't repin the same image twice in a row</div>
+        <div class="tip-body">Pinterest penalizes duplicate content posted back-to-back. The schedule already mixes pillars daily. If you ever reshare a top performer, wait at least 7 days and change the description text slightly.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🔍</div>
+        <div class="tip-title">Keyword-first descriptions</div>
+        <div class="tip-body">Pinterest is a search engine. Put the most important keywords in the first 2 sentences of the description — that's what shows up in search results. The descriptions are already written this way; don't truncate them.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📊</div>
+        <div class="tip-title">Watch outbound clicks, not saves</div>
+        <div class="tip-body">Saves mean people liked the image. Outbound clicks mean they went to the site. Our goal is traffic. Check Pinterest Analytics → Metrics → Outbound clicks after 7 days to see which pins are actually driving results.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🏆</div>
+        <div class="tip-title">Collecting content wins on Pinterest</div>
+        <div class="tip-body">Sports card collecting has massive search volume on Pinterest. Grading (PSA/BGS), card storage, and flipping guides are among the top performing topics. Pins 1–6 and 19–23 are your best bets for organic reach early on.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /pg-wrap -->
+
+<script>
+/* ── Copy to clipboard ─────────────────────────────────────────────────────── */
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    const orig = btn.textContent; btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.classList.add('copied'); const orig = btn.textContent; btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+  });
+}
+
+/* ── Smooth scroll for anchor nav ─────────────────────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+<%- include('../partials/footer') %>

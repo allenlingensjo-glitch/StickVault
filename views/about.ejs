@@ -1,0 +1,107 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<% if (typeof heroImage !== 'undefined' && heroImage) { %>
+<img src="<%= heroImage %>" alt="About StickVault — Five Disciplines, One Standard" class="hero-img-bg">
+<% } %>
+
+<section class="page-header">
+  <div class="container">
+    <div class="section-label">The Philosophy</div>
+    <h1 class="page-header-title">About StickVault</h1>
+    <p class="page-header-sub">A modern vault for people who go deeper than the surface.</p>
+  </div>
+</section>
+
+<section class="about-content">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="about-lead">
+          The best information is never where everyone's looking.
+        </p>
+
+        <p>
+          It's not on the first page. It's not trending. It's the practice structure that stops you from plateauing after two years of drumming. It's the Discogs pattern that surfaces undervalued wax before a reissue. It's the morning routine that survives real life, not just a journal experiment.
+        </p>
+
+        <p>
+          That's what StickVault is. A place for the specific over the general, the tested over the theoretical, the depth that doesn't fit in a tweet.
+        </p>
+
+        <p>
+          <strong>Five disciplines. One standard.</strong> Everything here passes the same bar: it has to be earned, not assembled. Grading culture, drum practice, morning systems, creator economics, overlooked tools — these aren't separate categories. They're expressions of the same underlying idea: go deep, build deliberately, and don't waste shelf space on things that don't hold up.
+        </p>
+
+        <div class="about-vault-metaphor">
+          <div class="vault-metaphor-icon">&#128274;</div>
+          <div class="vault-metaphor-text">
+            <strong>Why a vault?</strong> Because a vault has a standard. You don't put just anything inside. What's here has been used, verified, or sourced from people who've done the actual work. No filler. No "10 tips to change your life." If it doesn't clear the bar, it doesn't go in.
+          </div>
+        </div>
+
+        <div class="about-pillars">
+          <div class="about-pillar">
+            <div class="pillar-icon">🥁</div>
+            <div class="pillar-label">Rhythm</div>
+            <p class="pillar-text">Drum practice, flow state, creative discipline. The unglamorous side of getting good at something.</p>
+          </div>
+          <div class="about-pillar">
+            <div class="pillar-icon">🃏</div>
+            <div class="pillar-label">Collecting</div>
+            <p class="pillar-text">Sports cards, vinyl, grading — ownership with intention, understanding value before the market catches up.</p>
+          </div>
+          <div class="about-pillar">
+            <div class="pillar-icon">🌅</div>
+            <div class="pillar-label">Systems</div>
+            <p class="pillar-text">Routines that hold under real conditions. Side hustles, operational thinking, building things that run.</p>
+          </div>
+          <div class="about-pillar">
+            <div class="pillar-icon">💎</div>
+            <div class="pillar-label">Hidden Gems</div>
+            <p class="pillar-text">The tools, places, and strategies most people walk right past. Discovery over hype.</p>
+          </div>
+          <div class="about-pillar">
+            <div class="pillar-icon">⚡</div>
+            <div class="pillar-label">Side Moves</div>
+            <p class="pillar-text">Modern leverage, digital ownership, creator systems. Building quietly with actual structure.</p>
+          </div>
+        </div>
+
+        <div class="about-actions">
+          <a href="/blog" class="btn btn-primary">Enter the Vault</a>
+          <a href="/shop" class="btn btn-ghost">View Digital Guides</a>
+        </div>
+      </div>
+
+      <div class="about-sidebar">
+        <div class="about-sidebar-card">
+          <div class="sidebar-card-label">What we cover</div>
+          <ul class="sidebar-topics">
+            <li><a href="/blog?category=drums">🥁 Drums</a></li>
+            <li><a href="/blog?category=collecting">🃏 Collecting</a></li>
+            <li><a href="/blog?category=side-hustles">⚡ Side Hustles</a></li>
+            <li><a href="/blog?category=routines">🌅 Routines</a></li>
+            <li><a href="/blog?category=hidden-gems">💎 Hidden Gems</a></li>
+          </ul>
+        </div>
+
+        <div class="about-sidebar-card">
+          <div class="sidebar-card-label">Join the vault</div>
+          <p class="sidebar-sub">New drops, deep dives, and finds — before the algorithm gets them.</p>
+          <form class="email-form email-form--sidebar" id="email-form">
+            <input type="email" name="email" placeholder="your@email.com" class="email-input" required>
+            <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.75rem;">Get Access</button>
+          </form>
+          <div class="email-form-message" id="email-message" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+<%- analyticsSnippet %>
+<script src="/js/main.js"></script>
+</body>
+</html>
